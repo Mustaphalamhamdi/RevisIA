@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.mustapha.revisia.controllers.LoginController"
+           prefHeight="600.0" prefWidth="800.0">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <VBox alignment="CENTER" spacing="20">
+        <VBox styleClass="login-form" alignment="CENTER" spacing="20" maxWidth="400">
+            <padding>
+                <Insets top="30" right="40" bottom="30" left="40"/>
+            </padding>
+
+            <Label styleClass="header-label" text="RévisIA"/>
+            <Label text="Connectez-vous à votre compte" />
+
+            <Separator/>
+
+            <VBox spacing="5">
+                <Label text="Nom d'utilisateur"/>
+                <TextField fx:id="usernameField" promptText="Entrez votre nom d'utilisateur"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Mot de passe"/>
+                <PasswordField fx:id="passwordField" promptText="Entrez votre mot de passe"/>
+            </VBox>
+
+            <Button fx:id="loginButton" text="Se connecter" maxWidth="Infinity" onAction="#handleLogin"/>
+
+            <HBox alignment="CENTER">
+                <Label text="Pas encore de compte? "/>
+                <Button styleClass="link-button" text="S'inscrire" onAction="#handleRegister"/>
+            </HBox>
+        </VBox>
+    </VBox>
+</StackPane>

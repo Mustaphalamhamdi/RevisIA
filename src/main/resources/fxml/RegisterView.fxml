@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.mustapha.revisia.controllers.RegisterController"
+           prefHeight="600.0" prefWidth="800.0">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <VBox alignment="CENTER" spacing="20">
+        <VBox styleClass="login-form" alignment="CENTER" spacing="20" maxWidth="400">
+            <padding>
+                <Insets top="30" right="40" bottom="30" left="40"/>
+            </padding>
+
+            <Label styleClass="header-label" text="RévisIA"/>
+            <Label text="Créer un nouveau compte" />
+
+            <Separator/>
+
+            <VBox spacing="5">
+                <Label text="Nom d'utilisateur"/>
+                <TextField fx:id="usernameField" promptText="Choisissez un nom d'utilisateur"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Email"/>
+                <TextField fx:id="emailField" promptText="Entrez votre adresse email"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Mot de passe"/>
+                <PasswordField fx:id="passwordField" promptText="Choisissez un mot de passe"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Confirmer le mot de passe"/>
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirmez votre mot de passe"/>
+            </VBox>
+
+            <Button fx:id="registerButton" text="S'inscrire" maxWidth="Infinity" onAction="#handleRegister"/>
+
+            <HBox alignment="CENTER">
+                <Label text="Déjà inscrit? "/>
+                <Button styleClass="link-button" text="Se connecter" onAction="#handleBackToLogin"/>
+            </HBox>
+        </VBox>
+    </VBox>
+</StackPane>

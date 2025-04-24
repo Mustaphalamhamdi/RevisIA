@@ -1,0 +1,233 @@
+/* Minimalist Fun Design with Clean Typography */
+
+/* Base styles */
+.root {
+    -fx-font-family: "Poppins", "Segoe UI", sans-serif;
+    -fx-background-color: #f9f9f9;
+}
+
+/* Color palette */
+* {
+    -primary: #5c6bc0; /* Cool indigo */
+    -primary-light: #8e99f3;
+    -primary-dark: #26418f;
+    -accent: #ff7043; /* Playful orange */
+    -light-gray: #f5f5f5;
+    -medium-gray: #e0e0e0;
+    -dark-gray: #757575;
+    -text: #424242;
+    -white: #ffffff;
+}
+
+/* Typography */
+.title {
+    -fx-font-size: 28px;
+    -fx-font-weight: 600;
+    -fx-text-fill: -primary-dark;
+}
+
+.subtitle {
+    -fx-font-size: 18px;
+    -fx-font-weight: normal;
+    -fx-text-fill: -dark-gray;
+}
+
+/* Login and Registration Forms */
+.login-form {
+    -fx-background-color: -white;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-padding: 30px;
+}
+
+.header-label {
+    -fx-font-size: 28px;
+    -fx-font-weight: 600;
+    -fx-text-fill: -primary;
+}
+
+/* Form fields */
+.text-field, .password-field {
+    -fx-background-color: -light-gray;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 0;
+    -fx-padding: 12px 16px;
+    -fx-font-size: 14px;
+    -fx-text-fill: -text;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-background-color: -white;
+    -fx-effect: dropshadow(gaussian, rgba(92,107,192,0.2), 8, 0, 0, 0);
+    -fx-border-width: 1px;
+    -fx-border-color: -primary;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: -primary;
+    -fx-text-fill: -white;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 12px 20px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: -primary-light;
+    -fx-translate-y: -1px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.button:pressed {
+    -fx-background-color: -primary-dark;
+    -fx-translate-y: 1px;
+}
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -primary;
+    -fx-font-weight: 600;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-padding: 5px 10px;
+}
+
+.link-button:hover {
+    -fx-text-fill: -primary-light;
+    -fx-underline: true;
+}
+
+/* Dashboard layout */
+.sidebar {
+    -fx-background-color: -white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 0);
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: -dark-gray;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-padding: 14px 20px;
+    -fx-cursor: hand;
+    -fx-border-width: 0 0 0 3px;
+    -fx-border-color: transparent;
+}
+
+.sidebar-button:hover {
+    -fx-text-fill: -primary;
+    -fx-background-color: -light-gray;
+}
+
+.sidebar-button:selected {
+    -fx-text-fill: -primary;
+    -fx-border-color: -primary;
+}
+
+/* Header */
+.header {
+    -fx-background-color: -white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 0);
+    -fx-padding: 12px 24px;
+}
+
+/* Cards */
+.card {
+    -fx-background-color: -white;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 8, 0, 0, 1);
+    -fx-padding: 24px;
+}
+
+.card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-translate-y: -2px;
+}
+
+.card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
+    -fx-text-fill: -primary-dark;
+}
+
+/* Fun elements */
+.fun-tag {
+    -fx-background-color: -accent;
+    -fx-background-radius: 100px;
+    -fx-text-fill: -white;
+    -fx-font-weight: 600;
+    -fx-font-size: 12px;
+    -fx-padding: 4px 12px;
+}
+
+.fun-card {
+    -fx-background-color: linear-gradient(to right, -primary-light, -primary);
+    -fx-background-radius: 12px;
+    -fx-padding: 24px;
+}
+
+.fun-text {
+    -fx-font-size: 16px;
+    -fx-font-weight: 600;
+    -fx-text-fill: -white;
+}
+
+/* Task items */
+.task-item {
+    -fx-background-color: -white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 1px;
+    -fx-border-color: -medium-gray;
+    -fx-padding: 12px 16px;
+}
+
+.task-item:hover {
+    -fx-border-color: -primary;
+    -fx-effect: dropshadow(gaussian, rgba(92,107,192,0.1), 8, 0, 0, 0);
+}
+
+.task-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: -text;
+}
+
+.task-subtitle {
+    -fx-font-size: 12px;
+    -fx-text-fill: -dark-gray;
+}
+
+/* Study button */
+.study-button {
+    -fx-background-color: -accent;
+    -fx-background-radius: 8px;
+    -fx-text-fill: -white;
+    -fx-font-weight: 600;
+    -fx-font-size: 14px;
+    -fx-padding: 14px 24px;
+}
+
+.study-button:hover {
+    -fx-background-color: derive(-accent, 10%);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 6, 0, 0, 2);
+    -fx-translate-y: -1px;
+}
+
+/* Simple progress bar */
+.progress-bar {
+    -fx-accent: -accent;
+}
+
+.progress-bar .bar {
+    -fx-background-radius: 4px;
+    -fx-background-insets: 0;
+}
+
+.progress-bar .track {
+    -fx-background-color: -light-gray;
+    -fx-background-radius: 4px;
+}

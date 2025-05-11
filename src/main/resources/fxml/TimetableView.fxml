@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.mustapha.revisia.controllers.TimetableController"
+            prefHeight="700.0" prefWidth="1000.0"
+            stylesheets="@../css/styles.css">
+
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header">
+            <Label text="RévisIA" styleClass="title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="usernameLabel"/>
+            <Button fx:id="logoutButton" text="Déconnexion" onAction="#handleLogout" styleClass="link-button"/>
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+        </HBox>
+    </top>
+
+    <!-- Left Sidebar -->
+    <left>
+        <VBox spacing="8" styleClass="sidebar" prefWidth="200">
+            <padding>
+                <Insets top="20" right="10" bottom="20" left="10"/>
+            </padding>
+            <Button fx:id="dashboardButton" text="Accueil" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleDashboard"/>
+            <Button fx:id="timetableButton" text="Emploi du temps" maxWidth="Infinity" styleClass="sidebar-button, selected" onAction="#handleTimetable"/>
+            <Button fx:id="documentsButton" text="Documents" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleDocuments"/>
+            <Button fx:id="studyButton" text="Étudier" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleStudy"/>
+            <Button fx:id="examsButton" text="Examens" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleExams"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button fx:id="settingsButton" text="Paramètres" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleSettings"/>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <VBox spacing="24" style="-fx-padding: 30;">
+                <HBox alignment="CENTER_LEFT" spacing="20">
+                    <Label text="Emploi du temps" styleClass="page-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Ajouter un cours" styleClass="primary-button" onAction="#handleAddCourse"/>
+                </HBox>
+
+                <!-- Timetable View -->
+                <VBox spacing="15" styleClass="card">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="Mon emploi du temps hebdomadaire" styleClass="section-title"/>
+
+                    <GridPane fx:id="timetableGrid" vgap="1" hgap="1" style="-fx-background-color: #ddd; -fx-padding: 1;">
+                        <!-- Day Headers -->
+                        <Label styleClass="timetable-header" text="" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label styleClass="timetable-header" text="Lundi" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                        <Label styleClass="timetable-header" text="Mardi" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                        <Label styleClass="timetable-header" text="Mercredi" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                        <Label styleClass="timetable-header" text="Jeudi" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+                        <Label styleClass="timetable-header" text="Vendredi" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+                        <Label styleClass="timetable-header" text="Samedi" GridPane.columnIndex="6" GridPane.rowIndex="0"/>
+
+                        <!-- Time Slots -->
+                        <Label styleClass="time-label" text="8:00" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <Label styleClass="time-label" text="9:00" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <Label styleClass="time-label" text="10:00" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                        <Label styleClass="time-label" text="11:00" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                        <Label styleClass="time-label" text="12:00" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                        <Label styleClass="time-label" text="13:00" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+                        <Label styleClass="time-label" text="14:00" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                        <Label styleClass="time-label" text="15:00" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+                        <Label styleClass="time-label" text="16:00" GridPane.columnIndex="0" GridPane.rowIndex="9"/>
+                        <Label styleClass="time-label" text="17:00" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+                        <Label styleClass="time-label" text="18:00" GridPane.columnIndex="0" GridPane.rowIndex="11"/>
+
+                        <!-- Empty Cells (White Background) -->
+                        <!-- Row 1 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="1"/>
+
+                        <!-- Row 2 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="2"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="2"/>
+
+                        <!-- Row 3 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="3"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="3"/>
+
+                        <!-- Row 4 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="4"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="4"/>
+
+                        <!-- Row 5 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="5"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="5"/>
+
+                        <!-- Row 6 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="6"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="6"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="6"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="6"/>
+
+                        <!-- Row 7 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="7"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="7"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="7"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="7"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="7"/>
+
+                        <!-- Row 8 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="8"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="8"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="8"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="8"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="8"/>
+
+                        <!-- Row 9 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="9"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="9"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="9"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="9"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="9"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="9"/>
+
+                        <!-- Row 10 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="10"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="10"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="10"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="10"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="10"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="10"/>
+
+                        <!-- Row 11 -->
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="1" GridPane.rowIndex="11"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="2" GridPane.rowIndex="11"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="3" GridPane.rowIndex="11"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="4" GridPane.rowIndex="11"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="5" GridPane.rowIndex="11"/>
+                        <StackPane styleClass="time-cell" GridPane.columnIndex="6" GridPane.rowIndex="11"/>
+
+                        <!-- Column Constraints -->
+                        <columnConstraints>
+                            <ColumnConstraints minWidth="60" prefWidth="80"/>
+                            <ColumnConstraints minWidth="120" prefWidth="140" hgrow="ALWAYS"/>
+                            <ColumnConstraints minWidth="120" prefWidth="140" hgrow="ALWAYS"/>
+                            <ColumnConstraints minWidth="120" prefWidth="140" hgrow="ALWAYS"/>
+                            <ColumnConstraints minWidth="120" prefWidth="140" hgrow="ALWAYS"/>
+                            <ColumnConstraints minWidth="120" prefWidth="140" hgrow="ALWAYS"/>
+                            <ColumnConstraints minWidth="120" prefWidth="140" hgrow="ALWAYS"/>
+                        </columnConstraints>
+
+                        <!-- Row Constraints -->
+                        <rowConstraints>
+                            <RowConstraints minHeight="35" prefHeight="40"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                            <RowConstraints minHeight="60" prefHeight="65" vgrow="ALWAYS"/>
+                        </rowConstraints>
+                    </GridPane>
+                </VBox>
+
+                <!-- Courses List -->
+                <VBox spacing="15" styleClass="card">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <Label text="Mes matières" styleClass="section-title"/>
+                    <TableView fx:id="subjectsTable" prefHeight="200" styleClass="table-view">
+                        <columns>
+                            <TableColumn fx:id="nameColumn" text="Nom de la matière" prefWidth="200"/>
+                            <TableColumn fx:id="professorColumn" text="Professeur" prefWidth="200"/>
+                            <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="150"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

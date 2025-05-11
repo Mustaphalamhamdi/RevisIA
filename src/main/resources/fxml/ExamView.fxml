@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.mustapha.revisia.controllers.ExamController"
+            prefHeight="700.0" prefWidth="1000.0">
+
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header">
+            <Label text="RévisIA" styleClass="title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="usernameLabel"/>
+            <Button fx:id="logoutButton" text="Déconnexion" onAction="#handleLogout" styleClass="link-button"/>
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+        </HBox>
+    </top>
+
+    <!-- Left Sidebar -->
+    <left>
+        <VBox spacing="8" styleClass="sidebar" prefWidth="200">
+            <padding>
+                <Insets top="20" right="10" bottom="20" left="10"/>
+            </padding>
+            <Button fx:id="dashboardButton" text="Accueil" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleDashboard"/>
+            <Button fx:id="timetableButton" text="Emploi du temps" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleTimetable"/>
+            <Button fx:id="documentsButton" text="Documents" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleDocuments"/>
+            <Button fx:id="studyButton" text="Étudier" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleStudy"/>
+            <Button fx:id="examsButton" text="Examens" maxWidth="Infinity" styleClass="sidebar-button, selected" onAction="#handleExams"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button fx:id="settingsButton" text="Paramètres" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleSettings"/>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <StackPane>
+            <!-- Main Exam Setup Screen -->
+            <VBox fx:id="examSetupPane" spacing="20" style="-fx-padding: 30;">
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Préparation aux examens" styleClass="title"/>
+                </HBox>
+
+                <!-- Create Quiz Section -->
+                <VBox styleClass="card" spacing="15" style="-fx-padding: 20;">
+                    <Label text="Créer un quiz de révision" styleClass="card-title"/>
+
+                    <HBox spacing="20" alignment="CENTER_LEFT">
+                        <VBox spacing="8" HBox.hgrow="ALWAYS">
+                            <Label text="Matière" styleClass="form-label"/>
+                            <ComboBox fx:id="subjectComboBox" maxWidth="Infinity"/>
+                        </VBox>
+
+                        <VBox spacing="8" HBox.hgrow="ALWAYS">
+                            <Label text="Document (optionnel)" styleClass="form-label"/>
+                            <ComboBox fx:id="documentComboBox" maxWidth="Infinity"/>
+                        </VBox>
+                    </HBox>
+
+                    <VBox spacing="8">
+                        <Label text="Nombre de questions" styleClass="form-label"/>
+                        <HBox spacing="15" alignment="CENTER_LEFT">
+                            <Label text="5" styleClass="time-label"/>
+                            <Slider fx:id="questionCountSlider" min="5" max="30" value="10"
+                                    blockIncrement="5" majorTickUnit="5" minorTickCount="4"
+                                    showTickLabels="true" showTickMarks="true" HBox.hgrow="ALWAYS"/>
+                            <Label text="30" styleClass="time-label"/>
+                            <Label fx:id="questionCountLabel" text="10 questions" styleClass="selected-time"/>
+                        </HBox>
+                    </VBox>
+
+                    <HBox spacing="20" alignment="CENTER">
+                        <Button text="Générer des questions" styleClass="button-primary" onAction="#handleGenerateQuestions"/>
+                        <Button text="Créer mes propres questions" styleClass="button-secondary" onAction="#handleCreateCustomQuestions"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Recent Quizzes Section -->
+                <VBox styleClass="card" spacing="15" style="-fx-padding: 20;" VBox.vgrow="ALWAYS">
+                    <Label text="Mes quiz récents" styleClass="card-title"/>
+
+                    <TableView fx:id="quizzesTableView" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="quizSubjectColumn" text="Matière" prefWidth="200"/>
+                            <TableColumn fx:id="quizDocumentColumn" text="Document" prefWidth="200"/>
+                            <TableColumn fx:id="quizDateColumn" text="Date" prefWidth="150"/>
+                            <TableColumn fx:id="quizScoreColumn" text="Score" prefWidth="100"/>
+                            <TableColumn fx:id="quizActionsColumn" text="Actions" prefWidth="100"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <!-- AI-Generated Tips Section -->
+                <VBox styleClass="card" spacing="15" style="-fx-padding: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="Conseils de révision" styleClass="card-title"/>
+                        <Label text="IA" styleClass="ai-badge"/>
+                    </HBox>
+
+                    <ListView fx:id="tipsListView" prefHeight="100"/>
+                </VBox>
+            </VBox>
+
+            <!-- Quiz Screen (initially hidden) -->
+            <VBox fx:id="quizPane" spacing="20" style="-fx-padding: 30;" visible="false" managed="false">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Quiz: " styleClass="title"/>
+                    <Label fx:id="quizTitleLabel" text="[Subject]" styleClass="title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="questionCounterLabel" text="Question 1/10" styleClass="subtitle"/>
+                </HBox>
+
+                <VBox styleClass="card" spacing="20" style="-fx-padding: 25;" VBox.vgrow="ALWAYS">
+                    <Label fx:id="questionLabel" text="[Question text will appear here]" styleClass="question-text" wrapText="true"/>
+
+                    <VBox fx:id="answersBox" spacing="10">
+                        <!-- Answer options will be added here dynamically -->
+                    </VBox>
+
+                    <Region VBox.vgrow="ALWAYS" />
+
+                    <HBox alignment="CENTER" spacing="20">
+                        <Button fx:id="previousButton" text="Précédent" styleClass="button-secondary" onAction="#handlePreviousQuestion" disable="true"/>
+                        <Button fx:id="nextButton" text="Suivant" styleClass="button-primary" onAction="#handleNextQuestion"/>
+                        <Button fx:id="finishButton" text="Terminer le quiz" styleClass="button-primary" onAction="#handleFinishQuiz" visible="false" managed="false"/>
+                    </HBox>
+                </VBox>
+
+                <ProgressBar fx:id="quizProgressBar" progress="0.1" prefWidth="1000" prefHeight="10"/>
+            </VBox>
+
+            <!-- Results Screen (initially hidden) -->
+            <VBox fx:id="resultsPane" spacing="20" style="-fx-padding: 30;" visible="false" managed="false">
+                <HBox alignment="CENTER">
+                    <Label text="Résultats du quiz" styleClass="title"/>
+                </HBox>
+
+                <VBox styleClass="card" spacing="20" style="-fx-padding: 25;" alignment="CENTER">
+                    <Label text="Votre score" styleClass="card-title"/>
+                    <Label fx:id="scoreLabel" text="8/10" styleClass="score-text"/>
+                    <ProgressBar fx:id="scoreProgressBar" progress="0.8" prefWidth="400" prefHeight="20"/>
+                    <Label fx:id="feedbackLabel" text="Bon travail! Vous maîtrisez bien ce sujet."
+                           styleClass="feedback-text" wrapText="true" textAlignment="CENTER"/>
+                </VBox>
+
+                <VBox styleClass="card" spacing="15" style="-fx-padding: 20;">
+                    <Label text="Questions à revoir" styleClass="card-title"/>
+                    <ListView fx:id="incorrectQuestionsListView" prefHeight="200"/>
+                </VBox>
+
+                <HBox spacing="20" alignment="CENTER">
+                    <Button text="Revoir toutes les questions" styleClass="button-secondary" onAction="#handleReviewQuestions"/>
+                    <Button text="Retour aux examens" styleClass="button-primary" onAction="#handleBackToExams"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

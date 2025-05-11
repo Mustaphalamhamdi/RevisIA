@@ -6,7 +6,8 @@ module com.mustapha.revisia.revisia_new {
     requires jakarta.persistence;
     requires org.apache.pdfbox;
 
-    requires java.naming;  // Add this line
+    requires java.naming;
+    requires java.desktop;  // Add this line
     opens com.mustapha.revisia.models to org.hibernate.orm.core;  // Add this line
     exports com.mustapha.revisia.models;  // Add this line
 

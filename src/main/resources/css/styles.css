@@ -1,366 +1,615 @@
-/* Cartoon/Comic Style CSS inspired by Duolingo */
+/* Clean, Modern Design with White Background and Blue Buttons */
 
 /* Base styles */
 .root {
-    -fx-font-family: "Comic Sans MS", "Chalkboard SE", sans-serif;
-    -fx-background-color: #f5f5f5;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+    -fx-background-color: white;
+    -fx-font-size: 14px;
 }
 
-/* Vibrant color palette */
+/* Color palette */
 * {
-    -primary-color: #58cc02; /* Duolingo green */
-    -secondary-color: #1cb0f6; /* Duolingo blue */
-    -accent-color: #ff4b4b; /* Duolingo red */
-    -neutral-color: #afafaf;
-    -background-light: #fff;
-    -text-dark: #3c3c3c;
-    -text-light: #fff;
+    -fx-primary-blue: #1976d2;
+    -fx-light-blue: #42a5f5;
+    -fx-dark-blue: #0d47a1;
+    -fx-accent: #ff5722;
+
+    -fx-light-gray: #f5f5f5;
+    -fx-medium-gray: #e0e0e0;
+    -fx-dark-gray: #757575;
+
+    -fx-text-dark: #212121;
+    -fx-text-medium: #616161;
+    -fx-text-light: #ffffff;
 }
 
-/* Login and Registration Forms */
-.login-form {
-    -fx-background-color: -background-light;
-    -fx-background-radius: 20px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 5);
-    -fx-padding: 30px;
-    -fx-border-radius: 20px;
-    -fx-border-width: 5px;
-    -fx-border-color: -primary-color;
+/* Typography */
+.title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-blue;
+}
+
+.subtitle {
+    -fx-font-size: 18px;
+    -fx-font-weight: normal;
+    -fx-text-fill: -fx-text-medium;
 }
 
 .header-label {
-    -fx-font-size: 32px;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
-    -fx-text-fill: -primary-color;
-    -fx-padding: 0 0 15 0;
+    -fx-text-fill: -fx-primary-blue;
 }
 
-/* Form fields */
+/* Cards and containers */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: -fx-medium-gray;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 2);
+    -fx-padding: 16px;
+}
+
+.card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 15, 0, 0, 3);
+}
+
+/* Sidebar */
+.sidebar {
+    -fx-background-color: -fx-light-gray;
+    -fx-padding: 16px 8px;
+}
+
+/* Login form */
+.login-form {
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: -fx-medium-gray;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 15, 0, 0, 4);
+    -fx-padding: 24px;
+}
+
+/* Input fields */
 .text-field, .password-field {
-    -fx-background-radius: 15px;
-    -fx-border-radius: 15px;
-    -fx-border-color: -neutral-color;
-    -fx-border-width: 2px;
+    -fx-background-color: -fx-light-gray;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-border-color: transparent;
     -fx-padding: 12px;
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
 }
 
 .text-field:focused, .password-field:focused {
-    -fx-border-color: -secondary-color;
-    -fx-border-width: 3px;
-    -fx-effect: dropshadow(three-pass-box, rgba(28, 176, 246, 0.4), 10, 0, 0, 0);
+    -fx-background-color: white;
+    -fx-border-color: -fx-primary-blue;
+    -fx-effect: dropshadow(gaussian, rgba(25, 118, 210, 0.2), 8, 0, 0, 0);
 }
 
 /* Buttons */
 .button {
-    -fx-background-color: -primary-color;
-    -fx-text-fill: -text-light;
+    -fx-background-color: -fx-primary-blue;
+    -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-font-size: 16px;
-    -fx-padding: 15px 25px;
-    -fx-background-radius: 15px;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 16px;
+    -fx-background-radius: 6px;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 3);
-    -fx-border-width: 0 0 4 0;
-    -fx-border-color: derive(-primary-color, -20%);
 }
 
 .button:hover {
-    -fx-background-color: derive(-primary-color, 10%);
-    -fx-translate-y: -2px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 8, 0, 0, 5);
+    -fx-background-color: -fx-light-blue;
 }
 
 .button:pressed {
-    -fx-background-color: derive(-primary-color, -10%);
-    -fx-translate-y: 1px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 3, 0, 0, 1);
+    -fx-background-color: -fx-dark-blue;
 }
 
+/* Secondary button */
+.secondary-button {
+    -fx-background-color: white;
+    -fx-border-color: -fx-primary-blue;
+    -fx-border-width: 1px;
+    -fx-text-fill: -fx-primary-blue;
+}
+
+.secondary-button:hover {
+    -fx-background-color: rgba(25, 118, 210, 0.1);
+}
+
+/* Link button */
 .link-button {
     -fx-background-color: transparent;
-    -fx-text-fill: -secondary-color;
-    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-blue;
     -fx-border-color: transparent;
+    -fx-padding: 6px 10px;
     -fx-cursor: hand;
-    -fx-padding: 5px 10px;
-    -fx-underline: false;
 }
 
 .link-button:hover {
-    -fx-text-fill: derive(-secondary-color, -20%);
+    -fx-text-fill: -fx-light-blue;
     -fx-underline: true;
 }
 
-/* Sidebar styles */
-.sidebar {
-    -fx-background-color: -background-light;
-    -fx-padding: 20px 10px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
-}
-
-.sidebar-button {
+/* Sidebar navigation */
+.nav-button {
     -fx-background-color: transparent;
-    -fx-text-fill: -text-dark;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-medium;
+    -fx-font-size: 14px;
+    -fx-padding: 12px 16px;
+    -fx-background-radius: 6px;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding: 15px;
     -fx-cursor: hand;
-    -fx-border-radius: 10px;
 }
 
-.sidebar-button:hover {
-    -fx-background-color: derive(-secondary-color, 80%);
-    -fx-text-fill: -secondary-color;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
-    -fx-translate-x: 3px;
+.nav-button:hover {
+    -fx-background-color: rgba(25, 118, 210, 0.1);
+    -fx-text-fill: -fx-primary-blue;
 }
 
-.sidebar-button:selected {
-    -fx-background-color: -secondary-color;
+.nav-button.active {
+    -fx-background-color: -fx-primary-blue;
     -fx-text-fill: white;
 }
 
-/* Header styles */
-.header {
-    -fx-background-color: -primary-color;
-    -fx-padding: 15px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 5);
+/* Progress indicators */
+.progress-indicator {
+    -fx-progress-color: -fx-primary-blue;
 }
 
-.header-title {
-    -fx-text-fill: -text-light;
+.progress-bar {
+    -fx-accent: -fx-primary-blue;
+}
+
+.progress-bar .track {
+    -fx-background-color: -fx-light-gray;
+}
+
+/* Statistics counters */
+.stat-value {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-blue;
+}
+
+.stat-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-text-medium;
+}
+
+/* Table styles */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: -fx-medium-gray;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.table-view .column-header {
+    -fx-background-color: -fx-light-gray;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: -fx-text-medium;
+    -fx-font-weight: bold;
+}
+
+.table-view .table-cell {
+    -fx-padding: 8px;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: -fx-light-gray;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: rgba(25, 118, 210, 0.2);
+}
+
+/* List view styles */
+.list-view {
+    -fx-background-color: white;
+    -fx-border-color: -fx-medium-gray;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.list-view .list-cell {
+    -fx-padding: 8px 12px;
+}
+
+.list-view .list-cell:odd {
+    -fx-background-color: -fx-light-gray;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: rgba(25, 118, 210, 0.2);
+    -fx-text-fill: -fx-text-dark;
+}
+
+/* Scrollbar styling */
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: -fx-light-gray;
+}
+
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: -fx-medium-gray;
+}
+
+.scroll-bar:vertical .thumb:hover,
+.scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: -fx-dark-gray;
+}
+
+/* Badge styling */
+.badge {
+    -fx-background-radius: 100px;
+    -fx-padding: 4px 8px;
+    -fx-font-size: 12px;
+    -fx-background-color: rgba(25, 118, 210, 0.2);
+    -fx-text-fill: -fx-primary-blue;
+}
+/* Add these timetable-specific styles to your styles.css file */
+
+.page-title {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
+    -fx-text-fill: #3949ab;
 }
 
-.user-info {
-    -fx-text-fill: -text-light;
-    -fx-font-size: 16px;
+.section-title {
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
+    -fx-text-fill: #3949ab;
+    -fx-padding: 0 0 10 0;
 }
 
-.logout-button {
-    -fx-background-color: rgba(255, 255, 255, 0.3);
+.primary-button {
+    -fx-background-color: #3949ab;
     -fx-text-fill: white;
-    -fx-border-color: white;
-    -fx-border-radius: 15px;
-    -fx-background-radius: 15px;
-    -fx-padding: 8px 15px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
     -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);
 }
 
-.logout-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.5);
+.primary-button:hover {
+    -fx-background-color: #303f9f;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);
+    -fx-translate-y: -1px;
+}
+
+/* Timetable styles */
+.timetable-header {
+    -fx-background-color: #3949ab;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+    -fx-min-width: 120px;
+    -fx-min-height: 35px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 1, 0, 0, 1);
+}
+
+.time-label {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #3949ab;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 1, 0, 0, 1);
+}
+
+.time-cell {
+    -fx-background-color: white;
+    -fx-min-height: 60px;
+    -fx-pref-height: 65px;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+/* Style for course cards in timetable */
+.course-card {
+    -fx-background-color: #e3f2fd;
+    -fx-background-radius: 5px;
+    -fx-padding: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+
+.course-name {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #1565c0;
+}
+
+.course-time {
+    -fx-font-size: 12px;
+    -fx-text-fill: #546e7a;
+}
+
+.course-location {
+    -fx-font-style: italic;
+    -fx-font-size: 12px;
+    -fx-text-fill: #78909c;
 }
 
 /* Card styles */
 .card {
-    -fx-background-color: -background-light;
-    -fx-background-radius: 20px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 15, 0, 0, 5);
-    -fx-padding: 20px;
-    -fx-border-radius: 20px;
-    -fx-border-width: 0 0 5 0;
-    -fx-border-color: -primary-color;
-}
-
-.card:hover {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 20, 0, 0, 8);
-    -fx-translate-y: -3px;
-}
-
-.card-title {
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -primary-color;
-    -fx-padding: 0 0 15 0;
-}
-
-/* Action buttons */
-.action-button {
-    -fx-background-color: -secondary-color;
-    -fx-text-fill: -text-light;
-    -fx-font-weight: bold;
-    -fx-font-size: 16px;
-    -fx-padding: 12px 25px;
-    -fx-background-radius: 15px;
-    -fx-cursor: hand;
-    -fx-border-width: 0 0 4 0;
-    -fx-border-color: derive(-secondary-color, -20%);
-}
-
-.action-button:hover {
-    -fx-background-color: derive(-secondary-color, 10%);
-    -fx-translate-y: -2px;
-}
-
-.action-button:pressed {
-    -fx-background-color: derive(-secondary-color, -10%);
-    -fx-translate-y: 1px;
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 1);
 }
 
 /* Table styles */
 .table-view {
     -fx-background-color: transparent;
-    -fx-border-color: -neutral-color;
-    -fx-border-radius: 15px;
-    -fx-background-radius: 15px;
-    -fx-padding: 0;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 5px;
 }
 
 .table-view .column-header {
-    -fx-background-color: -primary-color;
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #e0e0e0;
+    -fx-padding: 10px;
 }
 
 .table-view .column-header .label {
-    -fx-text-fill: -text-light;
+    -fx-text-fill: #3949ab;
     -fx-font-weight: bold;
-    -fx-padding: 15px;
 }
 
 .table-view .table-cell {
-    -fx-padding: 15px;
-    -fx-alignment: center-left;
-    -fx-font-size: 14px;
+    -fx-padding: 10px;
 }
 
 .table-view .table-row-cell:odd {
-    -fx-background-color: derive(-background-light, -5%);
+    -fx-background-color: #f9f9f9;
 }
 
 .table-view .table-row-cell:selected {
-    -fx-background-color: derive(-secondary-color, 80%);
-    -fx-text-fill: -text-dark;
+    -fx-background-color: #e3f2fd;
+    -fx-text-fill: -fx-text-base-color;
+}
+/* Study screen specific styles */
+.study-screen {
+    -fx-background-color: #f9f9f9;
 }
 
-/* List view styles */
-.list-view {
-    -fx-background-color: transparent;
-    -fx-border-color: -neutral-color;
-    -fx-border-radius: 15px;
+.form-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555;
+}
+
+.time-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #888;
+}
+
+.selected-time {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db;
+}
+
+.button-primary {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 12px 20px;
+    -fx-background-radius: 5px;
+}
+
+.button-primary:hover {
+    -fx-background-color: #2980b9;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+    -fx-translate-y: -1px;
+}
+
+.button-secondary {
+    -fx-background-color: #f1f1f1;
+    -fx-text-fill: #555;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 12px 20px;
+    -fx-background-radius: 5px;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #e0e0e0;
+}
+
+.button-danger {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 12px 20px;
+    -fx-background-radius: 5px;
+}
+
+.button-danger:hover {
+    -fx-background-color: #c0392b;
+}
+
+.stat-box {
+    -fx-padding: 15px;
+    -fx-background-color: white;
+    -fx-background-radius: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 5, 0, 0, 1);
+}
+
+.stat-title {
+    -fx-font-size: 13px;
+    -fx-text-fill: #888;
+}
+
+.stat-value {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db;
+}
+
+.streak-icon {
+    -fx-font-size: 18px;
+}
+
+.section-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555;
+    -fx-padding: 10 0 5 0;
+}
+
+/* Timer styling */
+.timer-card {
+    -fx-background-color: white;
     -fx-background-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-padding: 40px;
+    -fx-alignment: center;
+}
+
+.timer-circle {
+    -fx-fill: #f5f9fe;
+    -fx-stroke: #3498db;
+    -fx-stroke-width: 8;
+}
+
+.timer-text {
+    -fx-font-size: 60px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3498db;
+}
+
+.timer-state {
+    -fx-font-size: 18px;
+    -fx-text-fill: #555;
+}
+
+.session-info {
+    -fx-padding: 20px;
+    -fx-background-color: #f5f9fe;
+    -fx-background-radius: 10px;
+}
+
+.info-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #888;
+}
+
+.info-value {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555;
+}
+
+/* Completion screen styling */
+.completion-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555;
+}
+
+.completion-value {
+    -fx-font-size: 16px;
+    -fx-text-fill: #333;
+}
+
+.confidence-radio {
     -fx-padding: 5px;
 }
 
-.list-view .list-cell {
-    -fx-padding: 15px;
-    -fx-background-color: transparent;
-    -fx-font-size: 14px;
+.confidence-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #555;
 }
-
-.list-view .list-cell:odd {
-    -fx-background-color: derive(-background-light, -5%);
-}
-
-.list-view .list-cell:selected {
-    -fx-background-color: derive(-secondary-color, 80%);
-    -fx-text-fill: -text-dark;
-}
-
-/* Progress indicators */
-.progress-indicator {
-    -fx-progress-color: -secondary-color;
-}
-
-/* Motivational quote section */
-.quote-card {
-    -fx-background-color: -secondary-color;
-    -fx-background-radius: 20px;
-    -fx-padding: 20px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);
-    -fx-border-width: 0 0 5 0;
-    -fx-border-color: derive(-secondary-color, -20%);
-}
-
-.quote-text {
-    -fx-text-fill: -text-light;
-    -fx-font-style: italic;
-    -fx-font-size: 18px;
-}
-
-.quote-author {
-    -fx-text-fill: rgba(255, 255, 255, 0.8);
-    -fx-font-size: 14px;
-    -fx-alignment: center-right;
-    -fx-font-weight: bold;
-}
-
-/* Study progress section */
-.progress-card {
-    -fx-background-color: -background-light;
-    -fx-background-radius: 20px;
-    -fx-padding: 20px;
-    -fx-border-width: 0 0 5 0;
-    -fx-border-color: -accent-color;
-}
-
-.progress-title {
+/* Exam preparation specific styles */
+.question-text {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: -text-dark;
+    -fx-text-fill: #2c3e50;
+    -fx-padding: 10 0;
 }
 
-.progress-value {
-    -fx-font-size: 34px;
+.answer-option {
+    -fx-padding: 12px 15px;
+    -fx-background-color: #f5f9fe;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1px;
+    -fx-cursor: hand;
+}
+
+.answer-option:hover {
+    -fx-background-color: #ebf5ff;
+    -fx-border-color: #3498db;
+}
+
+.answer-selected {
+    -fx-background-color: #d6eaf8;
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+}
+
+.answer-correct {
+    -fx-background-color: #e8f8f5;
+    -fx-border-color: #27ae60;
+    -fx-border-width: 2px;
+}
+
+.answer-incorrect {
+    -fx-background-color: #fdedec;
+    -fx-border-color: #e74c3c;
+    -fx-border-width: 2px;
+}
+
+.score-text {
+    -fx-font-size: 48px;
     -fx-font-weight: bold;
-    -fx-text-fill: -accent-color;
+    -fx-text-fill: #3498db;
 }
 
-.progress-label {
-    -fx-font-size: 14px;
-    -fx-text-fill: -neutral-color;
-}
-
-/* Achievement badges */
-.badge {
-    -fx-background-color: -accent-color;
-    -fx-background-radius: 50%;
-    -fx-min-width: 80px;
-    -fx-min-height: 80px;
-    -fx-max-width: 80px;
-    -fx-max-height: 80px;
-    -fx-alignment: center;
+.feedback-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: #555;
     -fx-padding: 10px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
 }
 
-.badge-icon {
-    -fx-fill: white;
-    -fx-font-size: 30px;
-}
-
-.badge-text {
+/* AI badge styling */
+.ai-badge {
+    -fx-background-color: #3498db;
     -fx-text-fill: white;
     -fx-font-weight: bold;
+    -fx-padding: 3px 8px;
+    -fx-background-radius: 12px;
     -fx-font-size: 12px;
 }
 
-/* Animations */
-@keyframes bounce {
-    0%, 100% { -fx-translate-y: 0; }
-    50% { -fx-translate-y: -5px; }
+/* AI recommendation card styling */
+.ai-recommendation-card {
+    -fx-background-color: linear-gradient(to right, #e8f4fd, #ffffff);
+    -fx-border-width: 0 0 0 4px;
+    -fx-border-color: #3498db;
 }
 
-.bounce-animation {
-    -fx-animation: bounce 2s infinite;
+/* Animation for AI elements */
+.ai-animated {
+    -fx-transition: -fx-scale-x 0.3s, -fx-scale-y 0.3s;
 }
 
-@keyframes pulse {
-    0%, 100% { -fx-scale-x: 1; -fx-scale-y: 1; }
-    50% { -fx-scale-x: 1.05; -fx-scale-y: 1.05; }
-}
-
-.pulse-animation {
-    -fx-animation: pulse 2s infinite;
-}
-
-/* For highlighting achievements or important elements */
-.highlight {
-    -fx-background-color: -accent-color;
-    -fx-text-fill: white;
-    -fx-padding: 5px 10px;
-    -fx-background-radius: 10px;
-    -fx-font-weight: bold;
+.ai-animated:hover {
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
 }

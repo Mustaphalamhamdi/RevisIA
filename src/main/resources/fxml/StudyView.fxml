@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.mustapha.revisia.controllers.StudyController"
+            prefHeight="700.0" prefWidth="1000.0"
+            styleClass="study-screen">
+
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header">
+            <Label text="RévisIA" styleClass="title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="usernameLabel"/>
+            <Button fx:id="logoutButton" text="Déconnexion" onAction="#handleLogout" styleClass="link-button"/>
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+        </HBox>
+    </top>
+
+    <!-- Left Sidebar -->
+    <left>
+        <VBox spacing="8" styleClass="sidebar" prefWidth="200">
+            <padding>
+                <Insets top="20" right="10" bottom="20" left="10"/>
+            </padding>
+            <Button fx:id="dashboardButton" text="Accueil" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleDashboard"/>
+            <Button fx:id="timetableButton" text="Emploi du temps" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleTimetable"/>
+            <Button fx:id="documentsButton" text="Documents" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleDocuments"/>
+            <Button fx:id="studyButton" text="Étudier" maxWidth="Infinity" styleClass="sidebar-button, selected" onAction="#handleStudy"/>
+            <Button fx:id="examsButton" text="Examens" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleExams"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button fx:id="settingsButton" text="Paramètres" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleSettings"/>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area - Using a StackPane to allow switching between views -->
+    <center>
+        <StackPane>
+            <!-- Setup View - Visible when not studying -->
+            <VBox fx:id="setupPane" spacing="24" style="-fx-padding: 30;">
+                <HBox alignment="CENTER_LEFT">
+                    <Label text="Mode Étude" styleClass="title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                </HBox>
+
+                <!-- Session Setup Card -->
+                <HBox spacing="30">
+                    <!-- Left Part: Session Configuration -->
+                    <VBox spacing="15" styleClass="card" HBox.hgrow="ALWAYS" style="-fx-padding: 25;">
+                        <Label text="Configuration de la session" styleClass="card-title"/>
+
+                        <HBox spacing="20" alignment="CENTER_LEFT">
+                            <VBox spacing="8" HBox.hgrow="ALWAYS">
+                                <Label text="Matière" styleClass="form-label"/>
+                                <ComboBox fx:id="subjectComboBox" maxWidth="Infinity"/>
+                            </VBox>
+
+                            <VBox spacing="8" HBox.hgrow="ALWAYS">
+                                <Label text="Document (optionnel)" styleClass="form-label"/>
+                                <ComboBox fx:id="documentComboBox" maxWidth="Infinity"/>
+                            </VBox>
+                        </HBox>
+
+                        <VBox spacing="8">
+                            <Label text="Durée de concentration" styleClass="form-label"/>
+                            <HBox spacing="15" alignment="CENTER_LEFT">
+                                <Label text="10 min" styleClass="time-label"/>
+                                <Slider fx:id="focusTimeSlider" min="10" max="60" value="25"
+                                        blockIncrement="5" majorTickUnit="10" minorTickCount="1"
+                                        showTickLabels="true" showTickMarks="true" HBox.hgrow="ALWAYS"/>
+                                <Label text="60 min" styleClass="time-label"/>
+                                <Label fx:id="focusTimeLabel" text="25 min" styleClass="selected-time"/>
+                            </HBox>
+                        </VBox>
+
+                        <VBox spacing="8">
+                            <Label text="Durée de pause" styleClass="form-label"/>
+                            <HBox spacing="15" alignment="CENTER_LEFT">
+                                <Label text="3 min" styleClass="time-label"/>
+                                <Slider fx:id="breakTimeSlider" min="3" max="15" value="5"
+                                        blockIncrement="1" majorTickUnit="3" minorTickCount="2"
+                                        showTickLabels="true" showTickMarks="true" HBox.hgrow="ALWAYS"/>
+                                <Label text="15 min" styleClass="time-label"/>
+                                <Label fx:id="breakTimeLabel" text="5 min" styleClass="selected-time"/>
+                            </HBox>
+                        </VBox>
+
+                        <Region VBox.vgrow="ALWAYS"/>
+
+                        <Button fx:id="startStudyButton" text="Commencer l'étude"
+                                styleClass="button-primary" maxWidth="Infinity"
+                                onAction="#handleStartStudy"/>
+                    </VBox>
+
+                    <!-- Right Part: Study Statistics -->
+                    <VBox spacing="15" styleClass="card" HBox.hgrow="ALWAYS" style="-fx-padding: 25;">
+                        <Label text="Vos statistiques d'étude" styleClass="card-title"/>
+
+                        <!-- Study Time Statistics -->
+                        <GridPane hgap="15" vgap="15">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="50"/>
+                                <ColumnConstraints percentWidth="50"/>
+                            </columnConstraints>
+
+                            <!-- This Week -->
+                            <VBox styleClass="stat-box" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                <Label text="Cette semaine" styleClass="stat-title"/>
+                                <Label fx:id="weeklyHoursLabel" text="0h 0m" styleClass="stat-value"/>
+                            </VBox>
+
+                            <!-- Total -->
+                            <VBox styleClass="stat-box" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                <Label text="Total" styleClass="stat-title"/>
+                                <Label fx:id="totalHoursLabel" text="0h 0m" styleClass="stat-value"/>
+                            </VBox>
+
+                            <!-- Sessions -->
+                            <VBox styleClass="stat-box" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                <Label text="Sessions" styleClass="stat-title"/>
+                                <Label fx:id="totalSessionsLabel" text="0" styleClass="stat-value"/>
+                            </VBox>
+
+                            <!-- Streak -->
+                            <VBox styleClass="stat-box" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                <Label text="Jours consécutifs" styleClass="stat-title"/>
+                                <HBox alignment="CENTER_LEFT" spacing="5">
+                                    <Label fx:id="streakLabel" text="0" styleClass="stat-value"/>
+                                    <Label text="🔥" styleClass="streak-icon"/>
+                                </HBox>
+                            </VBox>
+                        </GridPane>
+
+                        <!-- Most Studied Subjects -->
+                        <Label text="Matières les plus étudiées" styleClass="section-title"/>
+                        <ListView fx:id="topSubjectsListView" prefHeight="100"/>
+
+                        <!-- Recent Sessions -->
+                        <Label text="Sessions récentes" styleClass="section-title"/>
+                        <ListView fx:id="recentSessionsListView" prefHeight="100" VBox.vgrow="ALWAYS"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Active Session View - Hidden initially, shown during study -->
+            <VBox fx:id="activeSessionPane" spacing="30" style="-fx-padding: 30;" visible="false" managed="false">
+                <HBox alignment="CENTER">
+                    <Label text="Session d'étude :" styleClass="title"/>
+                    <Label fx:id="activeSubjectLabel" text="[Subject]" styleClass="title" style="-fx-font-weight: bold;"/>
+                </HBox>
+
+                <!-- Timer Card -->
+                <VBox styleClass="timer-card" alignment="CENTER" spacing="20">
+                    <!-- Timer Display -->
+                    <StackPane>
+                        <Circle fx:id="timerCircle" radius="120" styleClass="timer-circle"/>
+                        <VBox alignment="CENTER" spacing="10">
+                            <Label fx:id="timerLabel" text="25:00" styleClass="timer-text"/>
+                            <Label fx:id="sessionStateLabel" text="Concentration" styleClass="timer-state"/>
+                        </VBox>
+                    </StackPane>
+
+                    <!-- Progress Bar -->
+                    <ProgressBar fx:id="sessionProgress" progress="0.0" prefWidth="500" prefHeight="10"/>
+
+                    <!-- Control Buttons -->
+                    <HBox spacing="20" alignment="CENTER">
+                        <Button fx:id="pauseButton" text="Pause" styleClass="button-primary" onAction="#handlePauseResume"/>
+                        <Button fx:id="skipButton" text="Passer" styleClass="button-secondary" onAction="#handleSkip"/>
+                        <Button fx:id="stopButton" text="Terminer" styleClass="button-danger" onAction="#handleStop"/>
+                    </HBox>
+
+                    <!-- Session Info -->
+                    <VBox styleClass="session-info" spacing="10" alignment="CENTER">
+                        <HBox spacing="30" alignment="CENTER">
+                            <VBox alignment="CENTER">
+                                <Label text="Focus" styleClass="info-label"/>
+                                <Label fx:id="focusTimeInfoLabel" text="25 min" styleClass="info-value"/>
+                            </VBox>
+
+                            <VBox alignment="CENTER">
+                                <Label text="Pause" styleClass="info-label"/>
+                                <Label fx:id="breakTimeInfoLabel" text="5 min" styleClass="info-value"/>
+                            </VBox>
+
+                            <VBox alignment="CENTER">
+                                <Label text="Temps total" styleClass="info-label"/>
+                                <Label fx:id="totalTimeLabel" text="00:00" styleClass="info-value"/>
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </VBox>
+
+            <!-- Completion View - Hidden initially, shown after study ends -->
+            <VBox fx:id="completionPane" spacing="20" style="-fx-padding: 30;" visible="false" managed="false">
+                <VBox styleClass="card" style="-fx-padding: 30;">
+                    <Label text="Session terminée !" styleClass="title" style="-fx-text-fill: #27ae60;"/>
+
+                    <VBox spacing="25" style="-fx-padding: 20 0;">
+                        <!-- Session Summary -->
+                        <GridPane hgap="20" vgap="15">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="30"/>
+                                <ColumnConstraints percentWidth="70"/>
+                            </columnConstraints>
+
+                            <Label text="Matière :" styleClass="completion-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                            <Label fx:id="completionSubjectLabel" text="[Subject]" styleClass="completion-value" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                            <Label text="Durée totale :" styleClass="completion-label" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                            <Label fx:id="completionDurationLabel" text="0h 0m" styleClass="completion-value" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                            <Label text="Cycles complétés :" styleClass="completion-label" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                            <Label fx:id="completionCyclesLabel" text="0" styleClass="completion-value" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        </GridPane>
+
+                        <!-- Confidence Rating -->
+                        <VBox spacing="15">
+                            <Label text="Comment évaluez-vous votre compréhension ?" styleClass="section-title"/>
+                            <HBox spacing="20" alignment="CENTER">
+                                <fx:define>
+                                    <ToggleGroup fx:id="confidenceGroup"/>
+                                </fx:define>
+
+                                <VBox alignment="CENTER" spacing="5">
+                                    <RadioButton fx:id="confidence1" toggleGroup="$confidenceGroup" styleClass="confidence-radio"/>
+                                    <Label text="Très faible" styleClass="confidence-label"/>
+                                </VBox>
+
+                                <VBox alignment="CENTER" spacing="5">
+                                    <RadioButton fx:id="confidence2" toggleGroup="$confidenceGroup" styleClass="confidence-radio"/>
+                                    <Label text="Faible" styleClass="confidence-label"/>
+                                </VBox>
+
+                                <VBox alignment="CENTER" spacing="5">
+                                    <RadioButton fx:id="confidence3" toggleGroup="$confidenceGroup" styleClass="confidence-radio" selected="true"/>
+                                    <Label text="Moyenne" styleClass="confidence-label"/>
+                                </VBox>
+
+                                <VBox alignment="CENTER" spacing="5">
+                                    <RadioButton fx:id="confidence4" toggleGroup="$confidenceGroup" styleClass="confidence-radio"/>
+                                    <Label text="Bonne" styleClass="confidence-label"/>
+                                </VBox>
+
+                                <VBox alignment="CENTER" spacing="5">
+                                    <RadioButton fx:id="confidence5" toggleGroup="$confidenceGroup" styleClass="confidence-radio"/>
+                                    <Label text="Excellente" styleClass="confidence-label"/>
+                                </VBox>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Notes -->
+                        <VBox spacing="10">
+                            <Label text="Notes (optionnel) :" styleClass="section-title"/>
+                            <TextArea fx:id="sessionNotesTextArea" prefHeight="100" promptText="Notez ce que vous avez appris ou ce que vous devez revoir..."/>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Buttons -->
+                    <HBox spacing="20" alignment="CENTER" style="-fx-padding: 20 0 0 0;">
+                        <Button text="Sauvegarder" styleClass="button-primary" onAction="#handleSaveSession"/>
+                        <Button text="Nouvelle session" styleClass="button-secondary" onAction="#handleNewSession"/>
+                    </HBox>
+                </VBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

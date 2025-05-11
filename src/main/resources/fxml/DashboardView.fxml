@@ -1,144 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import java.lang.String?>
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.chart.PieChart?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.mustapha.revisia.controllers.DashboardController"
-            prefHeight="700.0" prefWidth="1000.0">
+            prefHeight="600.0" prefWidth="800.0">
 
-    <!-- Top Navigation Bar -->
+    <!-- Top Header -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header">
-            <Label text="RévisIA" styleClass="header-title"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="usernameLabel" styleClass="user-info"/>
-            <Button fx:id="logoutButton" text="Déconnexion" onAction="#handleLogout" styleClass="logout-button"/>
+        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-padding: 10px; -fx-border-color: #E0E0E0; -fx-border-width: 0 0 1 0;" styleClass="header">
             <padding>
-                <Insets top="10" right="20" bottom="10" left="20"/>
+                <Insets top="10" right="15" bottom="10" left="15"/>
             </padding>
+            <Label text="RévisIA" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1976d2;" styleClass="header-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="usernameLabel" text="Username" style="-fx-font-size: 14px;" styleClass="user-info"/>
+            <Button fx:id="logoutButton" text="Déconnexion" onAction="#handleLogout" styleClass="secondary-button, logout-button"/>
         </HBox>
     </top>
 
     <!-- Left Sidebar -->
     <left>
-        <VBox spacing="15" styleClass="sidebar" prefWidth="220">
+        <VBox spacing="5" style="-fx-background-color: #F5F5F5; -fx-padding: 10px;" styleClass="sidebar">
             <padding>
-                <Insets top="20" right="10" bottom="20" left="10"/>
+                <Insets top="15" right="10" bottom="15" left="10"/>
             </padding>
-            <Button fx:id="dashboardButton" text="Tableau de bord" maxWidth="Infinity" styleClass="sidebar-button"
-                    onAction="#handleDashboard"/>
-            <Button fx:id="timetableButton" text="Emploi du temps" maxWidth="Infinity" styleClass="sidebar-button"
-                    onAction="#handleTimetable"/>
-            <Button fx:id="documentsButton" text="Documents" maxWidth="Infinity" styleClass="sidebar-button"
-                    onAction="#handleDocuments"/>
-            <Button fx:id="studyButton" text="Étudier" maxWidth="Infinity" styleClass="sidebar-button"
-                    onAction="#handleStudy"/>
-            <Button fx:id="examsButton" text="Examens" maxWidth="Infinity" styleClass="sidebar-button"
-                    onAction="#handleExams"/>
-            <Separator style="-fx-background-color: rgba(255,255,255,0.2);"/>
-            <Button fx:id="settingsButton" text="Paramètres" maxWidth="Infinity" styleClass="sidebar-button"
-                    onAction="#handleSettings"/>
+            <Button fx:id="dashboardButton" text="Tableau de bord" maxWidth="Infinity"
+                    styleClass="nav-button, active, sidebar-button" onAction="#handleDashboard"/>
+            <Button fx:id="timetableButton" text="Emploi du temps" maxWidth="Infinity"
+                    styleClass="nav-button, sidebar-button" onAction="#handleTimetable"/>
+            <Button fx:id="documentsButton" text="Documents" maxWidth="Infinity"
+                    styleClass="nav-button, sidebar-button" onAction="#handleDocuments"/>
+            <Button fx:id="studyButton" text="Étudier" maxWidth="Infinity"
+                    styleClass="nav-button, sidebar-button" onAction="#handleStudy"/>
+            <Button fx:id="examsButton" text="Examens" maxWidth="Infinity"
+                    styleClass="nav-button, sidebar-button" onAction="#handleExams"/>
+            <Region VBox.vgrow="ALWAYS" />
+            <Button fx:id="settingsButton" text="Paramètres" maxWidth="Infinity"
+                    styleClass="nav-button, sidebar-button" onAction="#handleSettings"/>
         </VBox>
     </left>
 
     <!-- Main Content Area -->
     <center>
-        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
-            <VBox spacing="25" style="-fx-padding: 30;">
-                <styleClass>
-                    <String fx:value="animate-fade-in"/>
-                </styleClass>
-
-                <!-- Welcome and Motivational Quote -->
-                <HBox spacing="20">
-                    <!-- Welcome Card -->
-                    <VBox styleClass="card" HBox.hgrow="ALWAYS" style="-fx-max-width: 60%;">
-                        <Label text="Bienvenue dans RévisIA" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                        <Label text="Votre assistant intelligent pour une étude efficace" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;"/>
-                        <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 20 0 0 0;">
+        <ScrollPane fitToWidth="true" style="-fx-background: white; -fx-background-color: white;">
+            <VBox spacing="20" style="-fx-padding: 20px;">
+                <!-- Welcome Section -->
+                <HBox style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 20px;" styleClass="card">
+                    <VBox spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="Bienvenue dans RévisIA" styleClass="title"/>
+                        <Label text="Votre assistant d'étude personnel" styleClass="subtitle"/>
+                        <HBox spacing="10" style="-fx-padding: 10px 0 0 0;">
                             <Button text="Commencer à étudier" onAction="#handleStartStudying" styleClass="action-button"/>
-                            <Button text="Uploader un PDF" onAction="#handleUploadPDF"
-                                    style="-fx-background-color: white; -fx-border-color: #3498db; -fx-text-fill: #3498db; -fx-background-radius: 30; -fx-border-radius: 30;"/>
+                            <Button text="Ajouter un document" styleClass="secondary-button" onAction="#handleUploadPDF"/>
                         </HBox>
-                    </VBox>
-
-                    <!-- Motivational Quote -->
-                    <VBox styleClass="quote-card" HBox.hgrow="ALWAYS">
-                        <Label fx:id="quoteLabel" styleClass="quote-text" wrapText="true" text="La connaissance s'acquiert par l'expérience, tout le reste n'est que de l'information."/>
-                        <Label fx:id="quoteAuthorLabel" styleClass="quote-author" text="- Albert Einstein" alignment="CENTER_RIGHT"/>
                     </VBox>
                 </HBox>
 
-                <!-- Study Progress and Statistics -->
-                <HBox spacing="20">
-                    <!-- Study Progress Cards -->
-                    <HBox spacing="15" HBox.hgrow="ALWAYS">
-                        <!-- Hours Studied -->
-                        <VBox styleClass="card, animate-slide-in" style="-fx-alignment: center; -fx-min-width: 150;" HBox.hgrow="ALWAYS">
-                            <Label styleClass="progress-title" text="Heures étudiées"/>
-                            <Label fx:id="hoursStudiedLabel" styleClass="progress-value" text="12"/>
-                            <Label styleClass="progress-label" text="cette semaine"/>
-                            <ProgressIndicator fx:id="hoursProgress" progress="0.6" style="-fx-min-width: 80; -fx-min-height: 80;"/>
-                        </VBox>
+                <!-- Statistics Section -->
+                <HBox spacing="15">
+                    <!-- Study Hours -->
+                    <VBox style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 20px; -fx-alignment: center;"
+                          HBox.hgrow="ALWAYS" styleClass="card, progress-card">
+                        <Label fx:id="hoursStudiedLabel" text="0" styleClass="stat-value, progress-value"/>
+                        <Label text="Heures étudiées" styleClass="stat-label, progress-label"/>
+                        <ProgressIndicator fx:id="hoursProgress" progress="0.0" style="-fx-padding: 10px;"/>
+                    </VBox>
 
-                        <!-- Documents Reviewed -->
-                        <VBox styleClass="card, animate-slide-in" style="-fx-alignment: center; -fx-min-width: 150;" HBox.hgrow="ALWAYS">
-                            <Label styleClass="progress-title" text="Documents"/>
-                            <Label fx:id="documentsLabel" styleClass="progress-value" text="5"/>
-                            <Label styleClass="progress-label" text="consultés"/>
-                            <ProgressIndicator fx:id="documentsProgress" progress="0.4" style="-fx-min-width: 80; -fx-min-height: 80;"/>
-                        </VBox>
+                    <!-- Documents Consulted -->
+                    <VBox style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 20px; -fx-alignment: center;"
+                          HBox.hgrow="ALWAYS" styleClass="card, progress-card">
+                        <Label fx:id="documentsLabel" text="0" styleClass="stat-value, progress-value"/>
+                        <Label text="Documents consultés" styleClass="stat-label, progress-label"/>
+                        <ProgressIndicator fx:id="documentsProgress" progress="0.0" style="-fx-padding: 10px;"/>
+                    </VBox>
 
-                        <!-- Days Streak -->
-                        <VBox styleClass="card, animate-slide-in" style="-fx-alignment: center; -fx-min-width: 150;" HBox.hgrow="ALWAYS">
-                            <Label styleClass="progress-title" text="Jours consécutifs"/>
-                            <Label fx:id="streakLabel" styleClass="progress-value" text="3"/>
-                            <Label styleClass="progress-label" text="continuez ainsi!"/>
-                            <ProgressIndicator fx:id="streakProgress" progress="0.3" style="-fx-min-width: 80; -fx-min-height: 80;"/>
-                        </VBox>
-                    </HBox>
+                    <!-- Streak Days -->
+                    <VBox style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 20px; -fx-alignment: center;"
+                          HBox.hgrow="ALWAYS" styleClass="card, progress-card">
+                        <Label fx:id="streakLabel" text="0" styleClass="stat-value, progress-value"/>
+                        <Label text="Jours consécutifs" styleClass="stat-label, progress-label"/>
+                        <ProgressIndicator fx:id="streakProgress" progress="0.0" style="-fx-padding: 10px;"/>
+                    </VBox>
+                </HBox>
 
-                    <!-- Subject Distribution Chart -->
-                    <VBox styleClass="card" HBox.hgrow="ALWAYS">
-                        <Label styleClass="card-title" text="Répartition du temps d'étude"/>
-                        <PieChart fx:id="subjectDistributionChart" legendVisible="true" labelsVisible="true"
-                                  style="-fx-min-height: 200; -fx-min-width: 300;"/>
+                <!-- Subject Distribution Chart -->
+                <HBox style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 20px;"
+                      styleClass="card">
+                    <VBox spacing="10" HBox.hgrow="ALWAYS">
+                        <Label text="Répartition du temps d'étude" styleClass="title" style="-fx-font-size: 18px;"/>
+                        <PieChart fx:id="subjectDistributionChart" legendVisible="true" labelsVisible="true" style="-fx-min-height: 200; -fx-min-width: 300;"/>
                     </VBox>
                 </HBox>
 
                 <!-- Today's Schedule -->
-                <VBox spacing="10" styleClass="card">
-                    <styleClass>
-                        <String fx:value="animate-slide-in"/>
-                    </styleClass>
-                    <Label text="Emploi du temps du jour" styleClass="card-title"/>
+                <VBox spacing="10" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 20px;"
+                      styleClass="card">
+                    <Label text="Emploi du temps du jour" styleClass="title, card-title" style="-fx-font-size: 18px;"/>
                     <TableView fx:id="scheduleTable" prefHeight="150">
                         <columns>
-                            <TableColumn fx:id="subjectColumn" text="Matière" prefWidth="200"/>
-                            <TableColumn fx:id="timeColumn" text="Horaire" prefWidth="150"/>
+                            <TableColumn fx:id="subjectColumn" text="Matière" prefWidth="150"/>
+                            <TableColumn fx:id="timeColumn" text="Horaire" prefWidth="100"/>
                             <TableColumn fx:id="locationColumn" text="Lieu" prefWidth="150"/>
-                            <TableColumn fx:id="statusColumn" text="Statut" prefWidth="150"/>
+                            <TableColumn fx:id="statusColumn" text="Statut" prefWidth="100"/>
                         </columns>
                     </TableView>
                 </VBox>
 
                 <!-- Study Recommendations -->
-                <VBox spacing="10" styleClass="card">
-                    <styleClass>
-                        <String fx:value="animate-slide-in"/>
-                    </styleClass>
+                <VBox spacing="10" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 20px;"
+                      styleClass="card" fx:id="recommendationsContainer">
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <Label text="Recommandations d'étude" styleClass="card-title"/>
-                        <Label fx:id="aiPoweredLabel" text="Alimenté par IA"
+                        <Label text="Recommandations d'étude" styleClass="title, card-title" style="-fx-font-size: 18px;"/>
+                        <Label fx:id="aiPoweredLabel" text="Alimenté par IA" styleClass="ai-badge"
                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 5 10; -fx-background-radius: 10;"/>
                     </HBox>
                     <ListView fx:id="recommendationsList" prefHeight="150"/>
                 </VBox>
+
+                <!-- Recent Documents Section -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-border-color: #E0E0E0; -fx-border-radius: 8px; -fx-background-radius: 8px; -fx-padding: 20px;"
+                      styleClass="card">
+                    <Label text="Documents récents" styleClass="title, card-title" style="-fx-font-size: 18px;"/>
+                    <ListView fx:id="recentDocumentsListView" VBox.vgrow="ALWAYS" prefHeight="150"/>
+                </VBox>
+
+                <!-- Motivational Quote -->
+                <HBox style="-fx-background-color: #1976d2; -fx-background-radius: 8px; -fx-padding: 20px; -fx-alignment: center;"
+                      styleClass="quote-card">
+                    <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                        <Label fx:id="quoteLabel" text="Le voyage de mille lieues commence par un seul pas."
+                               style="-fx-font-size: 16px; -fx-text-fill: white; -fx-font-style: italic; -fx-wrap-text: true;"
+                               styleClass="quote-text"/>
+                        <Label fx:id="quoteAuthorLabel" text="- Lao Tseu"
+                               style="-fx-font-size: 14px; -fx-text-fill: rgba(255,255,255,0.8); -fx-padding: 5 0 0 0;"
+                               styleClass="quote-author"/>
+                    </VBox>
+                </HBox>
 
                 <!-- Quick Actions -->
                 <HBox spacing="15" alignment="CENTER">

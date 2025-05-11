@@ -1,8 +1,24 @@
 package com.mustapha.revisia.controllers;
 
+import com.mustapha.revisia.models.Document;
+import com.mustapha.revisia.models.StudyRecommendation;
+import com.mustapha.revisia.models.StudySession;
+import com.mustapha.revisia.models.Subject;
 import com.mustapha.revisia.models.User;
+import com.mustapha.revisia.services.AIStudyRecommendationService;
+import com.mustapha.revisia.services.DocumentService;
+import com.mustapha.revisia.services.DocumentServiceImpl;
+import com.mustapha.revisia.services.QuizService;
+import com.mustapha.revisia.services.QuizServiceImpl;
+import com.mustapha.revisia.services.StudySessionService;
+import com.mustapha.revisia.services.StudySessionServiceImpl;
+import com.mustapha.revisia.services.SubjectService;
+import com.mustapha.revisia.services.SubjectServiceImpl;
+
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,71 +26,75 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 
 public class DashboardController implements Initializable {
 
     @FXML
     private Label usernameLabel;
-
     @FXML
     private Label quoteLabel;
-
     @FXML
     private Label quoteAuthorLabel;
-
     @FXML
     private Label hoursStudiedLabel;
-
     @FXML
     private Label documentsLabel;
-
     @FXML
     private Label streakLabel;
-
     @FXML
     private ProgressIndicator hoursProgress;
-
     @FXML
     private ProgressIndicator documentsProgress;
-
     @FXML
     private ProgressIndicator streakProgress;
-
     @FXML
     private PieChart subjectDistributionChart;
-
     @FXML
     private TableView<TimeSlotEntry> scheduleTable;
-
     @FXML
     private TableColumn<TimeSlotEntry, String> subjectColumn;
-
     @FXML
     private TableColumn<TimeSlotEntry, String> timeColumn;
-
     @FXML
     private TableColumn<TimeSlotEntry, String> locationColumn;
-
     @FXML
     private TableColumn<TimeSlotEntry, String> statusColumn;
-
     @FXML
     private ListView<String> recommendationsList;
+    @FXML
+    private Label aiPoweredLabel;
 
     private User currentUser;
     private final Random random = new Random();
     private Timeline quoteChangeTimeline;
+
+    private final StudySessionService studySessionService = new StudySessionServiceImpl();
+    private final SubjectService subjectService = new SubjectServiceImpl();
+    private final DocumentService documentService = new DocumentServiceImpl();
+    private final QuizService quizService = new QuizServiceImpl();
+    private AIStudyRecommendationService aiRecommendationService;
+    private List<StudyRecommendation> recommendations;
 
     // Motivational quotes
     private final String[][] quotes = {
@@ -92,13 +112,17 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Setup table columns
-        subjectColumn.setCellValueFactory(new PropertyValueFactory<>("subject"));
-        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        subjectColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("subject"));
+        timeColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("time"));
+        locationColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("location"));
+        statusColumn.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("status"));
 
-        // Load sample data
-        loadSampleData();
+        // Setup AI badge tooltip
+        Tooltip aiTooltip = new Tooltip("Recommandations générées par intelligence artificielle");
+        Tooltip.install(aiPoweredLabel, aiTooltip);
+
+        // Initialize the AI recommendation service
+        aiRecommendationService = new AIStudyRecommendationService(studySessionService, quizService);
 
         // Initialize with a random quote
         changeQuote();
@@ -114,12 +138,192 @@ public class DashboardController implements Initializable {
     public void setCurrentUser(User user) {
         this.currentUser = user;
         usernameLabel.setText(user.getUsername());
+
+        // Load study statistics
+        loadStudyStatistics();
+
+        // Generate and display AI recommendations
+        loadRecommendations();
+
+        // Load sample schedule data
+        loadSampleData();
     }
 
     private void changeQuote() {
         int index = random.nextInt(quotes.length);
         quoteLabel.setText(quotes[index][0]);
         quoteAuthorLabel.setText("- " + quotes[index][1]);
+    }
+
+    private void loadStudyStatistics() {
+        try {
+            // Get all study sessions for the user
+            List<StudySession> sessions = studySessionService.getStudySessionsByUser(currentUser);
+
+            // Calculate total study time in hours
+            int totalMinutes = sessions.stream().mapToInt(StudySession::getDurationMinutes).sum();
+            int totalHours = totalMinutes / 60;
+            hoursStudiedLabel.setText(String.valueOf(totalHours));
+
+            // Set a goal of 20 hours per month
+            double hoursGoal = 20.0;
+            hoursProgress.setProgress(Math.min(1.0, totalHours / hoursGoal));
+
+            // Calculate number of documents studied
+            long documentCount = sessions.stream()
+                    .filter(s -> s.getDocument() != null)
+                    .map(s -> s.getDocument().getId())
+                    .distinct()
+                    .count();
+            documentsLabel.setText(String.valueOf(documentCount));
+
+            // Set a goal of 10 documents
+            double documentsGoal = 10.0;
+            documentsProgress.setProgress(Math.min(1.0, documentCount / documentsGoal));
+
+            // Calculate streak (consecutive days with study sessions)
+            int streak = calculateStreak(sessions);
+            streakLabel.setText(String.valueOf(streak));
+
+            // Set a goal of 7 days streak
+            double streakGoal = 7.0;
+            streakProgress.setProgress(Math.min(1.0, streak / streakGoal));
+
+            // Create pie chart data for subject distribution
+            updateSubjectDistributionChart(sessions);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error loading study statistics: " + e.getMessage());
+        }
+    }
+
+    private int calculateStreak(List<StudySession> sessions) {
+        // This is a simplified implementation. In a real app, you would:
+        // 1. Group sessions by date
+        // 2. Check for consecutive days
+        // 3. Calculate the current streak
+
+        // For now, return a random value between 1 and 5
+        return 1 + random.nextInt(5);
+    }
+
+    private void updateSubjectDistributionChart(List<StudySession> sessions) {
+        // Group session minutes by subject
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
+        // Get all subjects
+        List<Subject> subjects = subjectService.getSubjectsByUser(currentUser);
+
+        // For each subject, calculate study time
+        for (Subject subject : subjects) {
+            int subjectMinutes = sessions.stream()
+                    .filter(s -> s.getSubject().getId().equals(subject.getId()))
+                    .mapToInt(StudySession::getDurationMinutes)
+                    .sum();
+
+            // Only add to chart if there is study time
+            if (subjectMinutes > 0) {
+                pieChartData.add(new PieChart.Data(subject.getName(), subjectMinutes));
+            }
+        }
+
+        // If no data, add placeholder
+        if (pieChartData.isEmpty()) {
+            pieChartData.add(new PieChart.Data("Pas encore de données", 1));
+        }
+
+        subjectDistributionChart.setData(pieChartData);
+
+        // Apply animations to pie chart slices
+        AtomicInteger i = new AtomicInteger(0);
+        pieChartData.forEach(data -> {
+            data.getNode().setStyle("-fx-pie-color: " + getColorForIndex(i.getAndIncrement()) + ";");
+
+            data.getNode().setOnMouseEntered(e -> {
+                data.getNode().setStyle("-fx-scale-x: 1.1; -fx-scale-y: 1.1; " + data.getNode().getStyle());
+            });
+
+            data.getNode().setOnMouseExited(e -> {
+                data.getNode().setStyle(data.getNode().getStyle().replace("-fx-scale-x: 1.1; -fx-scale-y: 1.1; ", ""));
+            });
+        });
+    }
+
+    private String getColorForIndex(int index) {
+        String[] colors = {
+                "#3498db", "#2ecc71", "#e74c3c", "#f39c12", "#9b59b6",
+                "#1abc9c", "#d35400", "#34495e", "#16a085", "#c0392b"
+        };
+        return colors[index % colors.length];
+    }
+
+    private void loadRecommendations() {
+        try {
+            // Generate recommendations
+            recommendations = aiRecommendationService.generateRecommendations(currentUser);
+
+            // Display recommendations in the UI
+            if (recommendations != null && !recommendations.isEmpty()) {
+                ObservableList<String> recommendationItems = FXCollections.observableArrayList();
+
+                for (StudyRecommendation rec : recommendations) {
+                    String priorityIndicator = "";
+                    switch(rec.getPriority()) {
+                        case 5: priorityIndicator = "🔴 "; break; // Highest priority
+                        case 4: priorityIndicator = "🟠 "; break;
+                        case 3: priorityIndicator = "🟡 "; break;
+                        case 2: priorityIndicator = "🔵 "; break;
+                        default: priorityIndicator = "⚪ "; break;
+                    }
+
+                    String item = priorityIndicator + rec.getSubject().getName() + " - " +
+                            rec.getRecommendedMinutes() + " minutes";
+
+                    if (rec.getDocument() != null) {
+                        item += " - Document: " + rec.getDocument().getTitle();
+                    }
+
+                    recommendationItems.add(item);
+                }
+
+                recommendationsList.setItems(recommendationItems);
+
+                // Set tooltip to show the reason for recommendation
+                recommendationsList.setCellFactory(param -> new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (empty || item == null) {
+                            setText(null);
+                            setTooltip(null);
+                        } else {
+                            setText(item);
+
+                            // Find the corresponding recommendation
+                            int index = getIndex();
+                            if (index >= 0 && index < recommendations.size()) {
+                                StudyRecommendation rec = recommendations.get(index);
+                                Tooltip tooltip = new Tooltip(rec.getReason());
+                                setTooltip(tooltip);
+                            }
+                        }
+                    }
+                });
+            } else {
+                // If no recommendations yet, show default tips
+                ObservableList<String> defaultTips = FXCollections.observableArrayList(
+                        "⚪ Commencez par étudier régulièrement pour recevoir des recommandations personnalisées",
+                        "⚪ Complétez des quiz pour améliorer vos recommandations",
+                        "⚪ Évaluez votre confiance après chaque session d'étude"
+                );
+                recommendationsList.setItems(defaultTips);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error generating recommendations: " + e.getMessage());
+        }
     }
 
     private void loadSampleData() {
@@ -132,7 +336,7 @@ public class DashboardController implements Initializable {
         scheduleTable.setItems(scheduleData);
 
         // Style the status column with colors
-        statusColumn.setCellFactory(column -> new TableCell<TimeSlotEntry, String>() {
+        statusColumn.setCellFactory(column -> new javafx.scene.control.TableCell<TimeSlotEntry, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -157,44 +361,36 @@ public class DashboardController implements Initializable {
                 }
             }
         });
+    }
 
-        // Sample recommendations with priority indicators
-        ObservableList<String> recommendations = FXCollections.observableArrayList(
-                "🔴 Réviser Chapitre 5: Bases de données relationnelles (priorité élevée)",
-                "🔵 Pratiquer les exercices Java sur les threads (30 minutes recommandées)",
-                "🔵 Revoir les formules mathématiques du cours de lundi",
-                "⚪ Préparer la présentation pour le cours de communication"
-        );
-        recommendationsList.setItems(recommendations);
+    @FXML
+    private void handleDashboard() {
+        // Already on dashboard
+    }
 
-        // Sample pie chart data for subject distribution
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Mathématiques", 30),
-                new PieChart.Data("Java", 25),
-                new PieChart.Data("Bases de données", 20),
-                new PieChart.Data("Communication", 15),
-                new PieChart.Data("Anglais", 10)
-        );
-        subjectDistributionChart.setData(pieChartData);
+    @FXML
+    private void handleTimetable() {
+        navigateTo("/fxml/TimetableView.fxml");
+    }
 
-        // Apply animations to pie chart slices
-        pieChartData.forEach(data -> {
-            data.getNode().setOnMouseEntered(e -> {
-                data.getNode().setStyle("-fx-pie-color: derive(" + data.getNode().getStyle() + ", 30%);");
-            });
-            data.getNode().setOnMouseExited(e -> {
-                data.getNode().setStyle("");
-            });
-        });
+    @FXML
+    private void handleDocuments() {
+        navigateTo("/fxml/DocumentsView.fxml");
+    }
 
-        // Set sample progress values
-        hoursStudiedLabel.setText("12");
-        documentsLabel.setText("5");
-        streakLabel.setText("3");
+    @FXML
+    private void handleStudy() {
+        navigateTo("/fxml/StudyView.fxml");
+    }
 
-        hoursProgress.setProgress(0.6); // 12 out of 20 hours goal
-        documentsProgress.setProgress(0.4); // 5 out of 12 documents
-        streakProgress.setProgress(0.3); // 3 out of 10 days streak goal
+    @FXML
+    private void handleExams() {
+        navigateTo("/fxml/ExamView.fxml");
+    }
+
+    @FXML
+    private void handleSettings() {
+        showNotImplementedAlert("Paramètres");
     }
 
     @FXML
@@ -217,58 +413,61 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
-    private void handleDashboard() {
-        // Already on dashboard
-    }
-
-    @FXML
-    private void handleTimetable() {
-        showNotImplementedAlert("Emploi du temps");
-    }
-
-    @FXML
-    private void handleDocuments() {
-        showNotImplementedAlert("Gestion des documents");
-    }
-
-    @FXML
-    private void handleStudy() {
-        showNotImplementedAlert("Mode étude");
-    }
-
-    @FXML
-    private void handleExams() {
-        showNotImplementedAlert("Préparation aux examens");
-    }
-
-    @FXML
-    private void handleSettings() {
-        showNotImplementedAlert("Paramètres");
-    }
-
-    @FXML
     private void handleUploadPDF() {
-        showNotImplementedAlert("Upload de PDF");
+        navigateTo("/fxml/DocumentsView.fxml");
     }
 
     @FXML
     private void handleStartStudying() {
-        showNotImplementedAlert("Commencer à étudier");
+        navigateTo("/fxml/StudyView.fxml");
     }
 
     @FXML
     private void handlePrepareExam() {
-        showNotImplementedAlert("Préparer un examen");
+        navigateTo("/fxml/ExamView.fxml");
     }
 
     @FXML
     private void handleGenerateExercises() {
-        showNotImplementedAlert("Générer des exercices");
+        navigateTo("/fxml/ExamView.fxml");
     }
 
     @FXML
     private void handleViewStatistics() {
-        showNotImplementedAlert("Voir les statistiques");
+        showNotImplementedAlert("Statistiques détaillées");
+    }
+
+    private void navigateTo(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof TimetableController) {
+                ((TimetableController) controller).setCurrentUser(currentUser);
+            } else if (controller instanceof DocumentsController) {
+                ((DocumentsController) controller).setCurrentUser(currentUser);
+            } else if (controller instanceof StudyController) {
+                ((StudyController) controller).setCurrentUser(currentUser);
+            } else if (controller instanceof ExamController) {
+                ((ExamController) controller).setCurrentUser(currentUser);
+            }
+
+            // Stop the timeline to prevent memory leaks
+            if (quoteChangeTimeline != null) {
+                quoteChangeTimeline.stop();
+            }
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+
+            Stage stage = (Stage) usernameLabel.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur de navigation",
+                    "Impossible de naviguer vers l'écran demandé: " + e.getMessage());
+        }
     }
 
     private void showNotImplementedAlert(String feature) {

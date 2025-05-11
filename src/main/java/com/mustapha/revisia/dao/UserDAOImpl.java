@@ -40,10 +40,28 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User getUserByUsername(String username) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
+            System.out.println("Searching for user: " + username);
+
+            String hql = "FROM User WHERE username = :username";
+            Query<User> query = session.createQuery(hql, User.class);
             query.setParameter("username", username);
-            return query.getSingleResult();  // Changed from uniqueResult to getSingleResult
+
+            try {
+                User user = query.getSingleResult();
+                if (user != null) {
+                    System.out.println("User found: " + user.getUsername());
+                    return user;
+                } else {
+                    System.out.println("No user found for username: " + username);
+                    return null;
+                }
+            } catch (Exception e) {
+                System.out.println("Error finding user: " + e.getMessage());
+                e.printStackTrace();
+                return null;
+            }
         } catch (Exception e) {
+            System.err.println("Database error: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -91,12 +109,16 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean validateLogin(String username, String password) {
+        System.out.println("Attempting to validate login for: " + username);
         User user = getUserByUsername(username);
         if (user != null) {
-            // In a real application, you would hash the password and compare the hashes
-            // For simplicity, we're comparing plain text here
-            return password.equals(user.getPasswordHash());
+            System.out.println("User found. Stored password: " + user.getPasswordHash());
+            System.out.println("Entered password: " + password);
+            boolean matches = password.equals(user.getPasswordHash());
+            System.out.println("Passwords match: " + matches);
+            return matches;
         }
+        System.out.println("User not found");
         return false;
     }
 }

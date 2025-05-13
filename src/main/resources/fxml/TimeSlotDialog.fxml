@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.mustapha.revisia.controllers.TimeSlotDialogController"
+      spacing="15" prefWidth="400">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Ajouter un cours à l'emploi du temps" styleClass="title"/>
+
+    <VBox spacing="5">
+        <Label text="Matière"/>
+        <ComboBox fx:id="subjectComboBox" promptText="Sélectionnez une matière" maxWidth="Infinity"/>
+    </VBox>
+
+    <VBox spacing="5">
+        <Label text="Jour"/>
+        <ComboBox fx:id="dayComboBox" promptText="Sélectionnez un jour" maxWidth="Infinity"/>
+    </VBox>
+
+    <HBox spacing="10">
+        <VBox spacing="5" HBox.hgrow="ALWAYS">
+            <Label text="Heure de début"/>
+            <TextField fx:id="startTimeField" promptText="Ex: 08:30"/>
+        </VBox>
+
+        <VBox spacing="5" HBox.hgrow="ALWAYS">
+            <Label text="Heure de fin"/>
+            <TextField fx:id="endTimeField" promptText="Ex: 10:00"/>
+        </VBox>
+    </HBox>
+
+    <VBox spacing="5">
+        <Label text="Lieu (optionnel)"/>
+        <TextField fx:id="locationField" promptText="Ex: Amphi A"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#handleCancel"/>
+        <Button text="Ajouter" styleClass="button" onAction="#handleSave"/>
+    </HBox>
+</VBox>

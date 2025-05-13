@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.mustapha.revisia.controllers.SettingsController"
+            prefHeight="700.0" prefWidth="1000.0">
+
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="header">
+            <Label text="RévisIA" styleClass="title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="usernameLabel"/>
+            <Button fx:id="logoutButton" text="Déconnexion" onAction="#handleLogout" styleClass="link-button"/>
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+        </HBox>
+    </top>
+
+    <!-- Left Sidebar -->
+    <left>
+        <VBox spacing="8" styleClass="sidebar" prefWidth="200">
+            <padding>
+                <Insets top="20" right="10" bottom="20" left="10"/>
+            </padding>
+            <Button fx:id="dashboardButton" text="Accueil" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleDashboard"/>
+            <Button fx:id="timetableButton" text="Emploi du temps" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleTimetable"/>
+            <Button fx:id="documentsButton" text="Documents" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleDocuments"/>
+            <Button fx:id="studyButton" text="Étudier" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleStudy"/>
+            <Button fx:id="examsButton" text="Examens" maxWidth="Infinity" styleClass="sidebar-button" onAction="#handleExams"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button fx:id="settingsButton" text="Paramètres" maxWidth="Infinity" styleClass="sidebar-button, selected" onAction="#handleSettings"/>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+            <VBox spacing="24" style="-fx-padding: 30;">
+                <HBox alignment="CENTER_LEFT" spacing="20">
+                    <Label text="Paramètres" styleClass="page-title"/>
+                </HBox>
+
+                <!-- AI Settings -->
+                <VBox spacing="15" styleClass="card">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="Paramètres de l'intelligence artificielle" styleClass="section-title"/>
+                        <Label text="IA" styleClass="ai-badge"/>
+                    </HBox>
+
+                    <GridPane hgap="20" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="70"/>
+                            <ColumnConstraints percentWidth="30"/>
+                        </columnConstraints>
+
+                        <!-- OpenAI Integration -->
+                        <Label text="Utiliser OpenAI pour générer des questions" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <CheckBox fx:id="openAIEnabledCheckbox" GridPane.rowIndex="0" GridPane.columnIndex="1" onAction="#handleOpenAIToggle"/>
+
+                        <!-- API Key -->
+                        <Label text="Clé API OpenAI" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <HBox spacing="10" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                            <PasswordField fx:id="apiKeyField" promptText="Clé API" HBox.hgrow="ALWAYS"/>
+                            <Button text="Sauver" onAction="#handleSaveAPIKey"/>
+                        </HBox>
+
+                        <!-- Status -->
+                        <Label text="Statut de l'intégration OpenAI" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <Label fx:id="openAIStatusLabel" text="Non configuré" styleClass="status-label"
+                               GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    </GridPane>
+
+                    <!-- Info text -->
+                    <TextArea text="L'intégration d'OpenAI permet de générer des questions de meilleure qualité et plus pertinentes pour vos documents. Elle nécessite une clé API valide que vous pouvez obtenir sur le site d'OpenAI."
+                              wrapText="true" editable="false" prefRowCount="3"
+                              style="-fx-background-color: #f0f0f0; -fx-text-fill: #555;"/>
+                </VBox>
+
+                <!-- Save Button -->
+                <HBox alignment="CENTER_RIGHT">
+                    <Button text="Enregistrer les paramètres" styleClass="button-primary" onAction="#handleSaveSettings"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

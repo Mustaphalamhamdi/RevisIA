@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.mustapha.revisia.controllers.DocumentDialogController"
+      spacing="15" prefWidth="500" style="-fx-background-color: white;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Ajouter un nouveau document" styleClass="title"/>
+
+    <VBox spacing="5">
+        <Label text="Titre du document"/>
+        <TextField fx:id="titleField" promptText="Ex: Chapitre 3 - Base de données relationnelles"/>
+    </VBox>
+
+    <VBox spacing="5">
+        <Label text="Matière"/>
+        <ComboBox fx:id="subjectComboBox" promptText="Sélectionnez une matière" maxWidth="Infinity"/>
+    </VBox>
+
+    <VBox spacing="5">
+        <Label text="Fichier PDF"/>
+        <HBox spacing="10">
+            <TextField fx:id="filePathField" promptText="Sélectionnez un fichier PDF" HBox.hgrow="ALWAYS" editable="false"/>
+            <Button text="Parcourir" onAction="#handleBrowse"/>
+        </HBox>
+    </VBox>
+
+    <VBox spacing="5">
+        <Label text="Description (optionnelle)"/>
+        <TextArea fx:id="descriptionField" promptText="Ajoutez des détails sur ce document..." prefRowCount="3"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#handleCancel"/>
+        <Button text="Ajouter" styleClass="button" onAction="#handleSave"/>
+    </HBox>
+</VBox>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+        <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=RevisiaDB;encrypt=true;trustServerCertificate=true</property>
+        <property name="hibernate.connection.username">revisiauser</property>
+        <property name="hibernate.connection.password">revisiauser25</property>
+
+        <!-- SQL dialect -->
+        <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+
+        <!-- Connection pool settings -->
+        <property name="hibernate.connection.pool_size">10</property>
+        <property name="hibernate.connection.autocommit">false</property>
+
+        <!-- Performance optimizations -->
+        <property name="hibernate.jdbc.batch_size">50</property>
+        <property name="hibernate.order_updates">true</property>
+        <property name="hibernate.jdbc.batch_versioned_data">true</property>
+
+        <!-- Disable aggressive connection release -->
+        <property name="hibernate.connection.release_mode">after_transaction</property>
+
+        <!-- Disable second-level cache if not needed -->
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+        <property name="hibernate.cache.use_query_cache">false</property>
+
+        <!-- More efficient SQL generation -->
+        <property name="hibernate.query.conventional_java_constants">true</property>
+
+        <!-- Optimize startup time -->
+        <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+
+        <!-- Echo only important SQL to stdout -->
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">false</property>
+
+        <!-- Schema management - set to validate once your schema is stable -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Set statement timeout to prevent long-running queries -->
+        <property name="hibernate.jdbc.timeout">30</property>
+
+        <!-- Entity mappings -->
+        <mapping class="com.mustapha.revisia.models.User"/>
+        <mapping class="com.mustapha.revisia.models.Subject"/>
+        <mapping class="com.mustapha.revisia.models.TimeSlot"/>
+        <mapping class="com.mustapha.revisia.models.Document"/>
+        <mapping class="com.mustapha.revisia.models.StudySession"/>
+    </session-factory>
+</hibernate-configuration>
